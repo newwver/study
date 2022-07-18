@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Row, Col, Layout, Typography } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import Logo from "./assets/temp/logo.svg";
 import menuList from "./assets/temp/menu.json";
+import Dropdown from "./components/atmos/Dropdown";
 
 export default function App() {
+  const [leftValue, setLeftValue] = useState("marketplace");
+
+  const handleFinish = (value) => {
+    setLeftValue(value);
+  };
+
   return (
     <BrowserRouter>
       <DribbleLayout>
@@ -91,12 +98,77 @@ export default function App() {
               </span>
             </Col>
           </Row>
+          <Row className="middle">
+            <Col span={24}>
+              <Row className="filter-content">
+                <Col flex="200px" style={{ paddingTop: 20, height: 300 }}>
+                  <Dropdown
+                    options={tempList}
+                    onFinish={handleFinish}
+                    defaultValue={leftValue}
+                  />
+                </Col>
+                <Col flex="auto" style={{ paddingTop: 20 }}>
+                  {/* <Dropdown options={tempList1} onFinish={handleFinish} /> */}
+                </Col>
+                <Col flex="200px">오른쪽</Col>
+              </Row>
+            </Col>
+            {/* <Col span={24}>카드영역</Col> */}
+          </Row>
+          {/* <Row className="middle">
+            <Col span={24} className="filter-content">
+              <Row className="filter-row">
+                <Col flex="120px">
+                  <Dropdown options={tempList} />
+                </Col>
+                <Col flex="auto">
+                  <Dropdown options={tempList1} />
+                </Col>
+                <Col flex="120px">오른쪽</Col>
+              </Row>
+            </Col>
+            <Col span={24}>카드영역</Col>
+          </Row> */}
         </DribbbleContent>
         <Footer>푸터</Footer>
       </DribbleLayout>
     </BrowserRouter>
   );
 }
+
+const tempList = [
+  {
+    label: "Popular",
+    value: "popular",
+    group: "A",
+  },
+  {
+    label: "New & Noteworthy",
+    value: "NewAndNoteworthy",
+    group: "A",
+  },
+  {
+    label: "Marketplace",
+    value: "marketplace",
+    group: "B",
+  },
+];
+
+const tempList1 = [
+  {
+    label: "aa",
+    value: "aa",
+  },
+  {
+    label: "bb",
+    value: "bb",
+  },
+  {
+    label: "cc",
+    value: "cc",
+  },
+];
 
 const { Header, Footer, Content } = Layout;
 
@@ -149,8 +221,10 @@ const Action = styled.li`
 
 const DribbbleContent = styled(Content)`
   background: #f9f8fd;
+  // margin: 0 auto;
   .top {
     min-width: 768px;
+    // max-width: 1300px;
     padding-right: 80px;
     padding-left: 80px;
     height: 480px;
@@ -202,6 +276,30 @@ const DribbbleContent = styled(Content)`
       }
     }
   }
+
+  .middle {
+    background: #fff;
+    @media (min-width: 768px) {
+      padding: 0 32px;
+    }
+    @media (min-width: 1200px) {
+      padding: 0 72px;
+    }
+
+    .filter-content {
+      min-height: 72px;
+    }
+  }
+
+  // .middle {
+  //   background: #fff;
+  //   .filter-content {
+  //     min-height: 72px;
+  //     .filter-row {
+  //       height: 100%;
+  //     }
+  //   }
+  // }
 
   .btnAction {
     padding: 10px 16px;

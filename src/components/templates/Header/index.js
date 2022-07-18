@@ -29,7 +29,7 @@ export default function Header() {
 
       if (data) {
         const { resultList } = data;
-        // resultList : 38개 메뉴 목록, store에 메뉴 목록 저장
+        // resultList : 38개 메뉴 목록
         dispatch(setMenuList(resultList));
       }
     } catch (error) {
