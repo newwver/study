@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 
@@ -25,8 +25,7 @@ export default function Carousel({
   };
 
   useEffect(() => {
-    defaultValue &&
-      keyOption &&
+    keyOption &&
       setSelectedItem({
         [keyOption?.value]: defaultValue,
       });
@@ -39,7 +38,6 @@ export default function Carousel({
           <div
             className={`carousel-item ${
               selectedItem &&
-              keyOption &&
               selectedItem[keyOption?.value] === item[keyOption?.value]
                 ? "active"
                 : ""
@@ -70,9 +68,6 @@ const DribbbleCarousel = styled(Slider)`
       display: inline-block;
       padding: 10px 12px;
       color: #6e6d7a;
-      &:hover {
-        color: #000;
-      }
     }
   }
 

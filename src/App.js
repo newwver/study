@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Row, Col, Layout, Button, Form } from 'antd';
-import styled from 'styled-components';
-import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
-import Logo from './assets/temp/logo.svg';
-import menuList from './assets/temp/menu.json';
-import categories from './assets/temp/categories.json';
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Row, Col, Layout, Button, Form } from "antd";
+import styled from "styled-components";
+import {
+  SearchOutlined,
+  FilterOutlined,
+  BgColorsOutlined,
+} from "@ant-design/icons";
 
-import Dropdown from './components/atmos/Dropdown';
-import Carousel from './components/atmos/Carousel';
+import Logo from "./assets/temp/logo.svg";
+import Dropdown from "./components/atmos/Dropdown";
+import Carousel from "./components/atmos/Carousel";
+import Search from "./components/atmos/Search";
+import ColorInput from "./components/atmos/ColorInput";
+
+import menuList from "./assets/temp/menu.json";
+import categories from "./assets/temp/categories.json";
 
 export default function App() {
   const [form] = Form.useForm();
 
-  const [leftValue, setLeftValue] = useState('marketplace');
-  const [centerValue, setCenterValue] = useState();
+  const [leftValue, setLeftValue] = useState("marketplace");
+  const [centerValue, setCenterValue] = useState(); // 자식값을 전달받은것.. 왜? 쿼리.. 데이터 조회
   const [isFilter, setIsFilter] = useState(false);
 
-  const handleFinish = value => {
+  const handleFinish = (value) => {
     setLeftValue(value);
   };
 
-  const handleCarouselFinish = value => {
+  const handleCarouselFinish = (value) => {
     setCenterValue(value);
   };
 
@@ -43,7 +50,7 @@ export default function App() {
                 </Col>
                 <Col>
                   <ul className="menuList">
-                    {menuList.map(menu => {
+                    {menuList.map((menu) => {
                       return (
                         <Menu>
                           <a href="/#" className="menu">
@@ -61,7 +68,7 @@ export default function App() {
                 <Action right={10}>
                   <a href="/#">
                     <SearchOutlined
-                      style={{ fontSize: 18, color: '#6e6d7a' }}
+                      style={{ fontSize: 18, color: "#6e6d7a" }}
                     />
                   </a>
                 </Action>
@@ -79,7 +86,6 @@ export default function App() {
             </Col>
           </Row>
         </DribbbleHeader>
-
         <DribbbleContent>
           <Row className="top" justify="space-between">
             <Col className="text-contents">
@@ -115,55 +121,84 @@ export default function App() {
             </Col>
           </Row>
           <Row className="middle">
-            <Col span={24} className="filter-content">
-              <Row className="filter-row">
-                <Col flex="120px">
-                  <Dropdown options={tempList} />
+            <Col span={24}>
+              <Row className="filter-content">
+                <Col flex="200px" style={{ paddingTop: 20 }}>
+                  <Dropdown
+                    options={tempList}
+                    onFinish={handleFinish}
+                    defaultValue={leftValue}
+                  />
                 </Col>
                 <Col flex="auto">
                   <CarouselWrap>
                     <Carousel
                       data={categories}
                       keyOption={{
-                        label: 'categoryName',
-                        value: 'categoryCode',
+                        label: "categoryName",
+                        value: "categoryCode",
                       }}
                       onFinish={handleCarouselFinish}
-                      defaultValue={centerValue}
                     />
                   </CarouselWrap>
                 </Col>
-                <Col flex="200px" style={{ textAlign: 'right' }}>
+                <Col
+                  flex="200px"
+                  style={{ paddingTop: 10, textAlign: "right" }}
+                >
                   <Button
                     icon={<FilterOutlined />}
-                    size={'large'}
-                    style={{ borderRadius: '8px' }}
+                    size={"large"}
+                    style={{ borderRadius: "8px" }}
                     onClick={handleFilterClick}
                   >
                     Filters
                   </Button>
                 </Col>
               </Row>
+              <Form form={form} layout="vertical">
+                <Row
+                  className={`filter-keywords ${isFilter ? "active-1" : ""}`}
+                  gutter={[16, 16]}
+                >
+                  <Col span={6}>
+                    <Form.Item name="tags" label="Tags">
+                      <Search size="large" prefix={<SearchOutlined />} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item name="color" label="Color">
+                      <ColorInput
+                        size="large"
+                        defaultValue="#000000"
+                        onFinish={(color) => {
+                          console.log(color);
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <div class="ant-col ant-form-item-label">
+                      <label for="timeframe" className="" title="timeframe">
+                        Timeframe
+                      </label>
+                    </div>
+                    <Dropdown options={tempList1} width="100%" />
+                  </Col>
+                  <Col span={6}>
+                    <div class="ant-col ant-form-item-label">
+                      <label for="Downloads" className="" title="Downloads">
+                        Downloads
+                      </label>
+                    </div>
+                    <Dropdown options={tempList2} width="100%" />
+                  </Col>
+                </Row>
+              </Form>
             </Col>
             <Col span={24}>카드영역</Col>
           </Row>
-          <Form form={form} layout="vertical">
-            <Row
-              className={`filter-keywords ${isFilter ? 'active' : ''}`}
-              gutter={[16, 16]}
-            >
-              <Col span={6}>
-                <Form.Item name="tags" label="Tags">
-                  {/* <Search size="large" /> */}
-                </Form.Item>
-              </Col>
-              <Col span={6}>2</Col>
-              <Col span={6}>3</Col>
-              <Col span={6}>4</Col>
-            </Row>
-          </Form>
         </DribbbleContent>
-
         <Footer>푸터</Footer>
       </DribbleLayout>
     </BrowserRouter>
@@ -172,41 +207,80 @@ export default function App() {
 
 const tempList = [
   {
-    label: 'Popular',
-    value: 'popular',
-    group: 'A',
+    label: "Popular",
+    value: "popular",
+    group: "A",
   },
   {
-    label: 'New & Noteworthy',
-    value: 'NewAndNoteworthy',
-    group: 'A',
+    label: "New & Noteworthy",
+    value: "NewAndNoteworthy",
+    group: "A",
   },
   {
-    label: 'Marketplace',
-    value: 'marketplace',
-    group: 'B',
+    label: "Marketplace",
+    value: "marketplace",
+    group: "B",
   },
 ];
 
 const tempList1 = [
   {
-    label: 'aa',
-    value: 'aa',
+    label: "Now",
+    value: "Now",
   },
   {
-    label: 'bb',
-    value: 'bb',
+    label: "This Past Week",
+    value: "This Past Week",
   },
   {
-    label: 'cc',
-    value: 'cc',
+    label: "This Past Month",
+    value: "This Past Month",
+  },
+  {
+    label: "This Past Year",
+    value: "This Past Year",
+  },
+  {
+    label: "All Time",
+    value: "All Time",
+  },
+];
+
+const tempList2 = [
+  {
+    label: "All Shots",
+    value: "All Shots",
+  },
+  {
+    label: "Adobe Illustrator",
+    value: "Adobe Illustrator",
+  },
+  {
+    label: "Adobe Photoshop",
+    value: "Adobe Photoshop",
+  },
+  {
+    label: "Adobe XD",
+    value: "Adobe XD",
+  },
+  {
+    label: "Figma",
+    value: "Figma",
+  },
+  {
+    label: "Invision Studio",
+    value: "Invision Studio",
+  },
+  {
+    label: "Sketch",
+    value: "Sketchv",
   },
 ];
 
 const { Header, Footer, Content } = Layout;
 
 const DribbleLayout = styled(Layout)`
-  font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial,
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
     sans-serif;
   font-size: 16px;
 `;
@@ -248,8 +322,8 @@ const Menu = styled.li`
 
 const Action = styled.li`
   display: inline;
-  margin-left: ${props => props.left || 0}px;
-  margin-right: ${props => props.right || 0}px;
+  margin-left: ${(props) => props.left || 0}px;
+  margin-right: ${(props) => props.right || 0}px;
 `;
 
 const DribbbleContent = styled(Content)`
@@ -320,18 +394,21 @@ const DribbbleContent = styled(Content)`
     }
 
     .filter-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       min-height: 72px;
     }
-  }
-  .filter-keywords {
-    display: none;
-  }
 
-  .active {
-    display: flex;
+    .filter-keywords {
+      visibility: hidden;
+      height: 0px;
+      transition: all ease 0.3s;
+      opacity: 0;
+    }
+
+    .active-1 {
+      visibility: visible;
+      height: 86px;
+      opacity: 1;
+    }
   }
 
   .btnAction {
@@ -342,7 +419,9 @@ const DribbbleContent = styled(Content)`
     font-weight: 500;
   }
 `;
+
 const CarouselWrap = styled.div`
   max-width: 1000px;
   margin: 0 auto;
+  padding-top: 10px;
 `;
