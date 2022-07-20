@@ -25,14 +25,9 @@
     "categorySeq": "5"
   },
   {
-    "categoryName": "Product",
-    "categoryCode": "product",
+    "categoryName": "Product Design",
+    "categoryCode": "productDesign",
     "categorySeq": "6"
-  },
-  {
-    "categoryName": "Design",
-    "categoryCode": "design",
-    "categorySeq": "7"
   },
   {
     "categoryName": "Typography",
@@ -40,13 +35,8 @@
     "categorySeq": "8"
   },
   {
-    "categoryName": "Web",
-    "categoryCode": "web",
+    "categoryName": "Web Design",
+    "categoryCode": "webDesign",
     "categorySeq": "9"
-  },
-  {
-    "categoryName": "Design",
-    "categoryCode": "design",
-    "categorySeq": "10"
   }
 ]

@@ -1,22 +1,38 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Row, Col, Layout, Typography } from "antd";
+import { Row, Col, Layout, Button, Form } from "antd";
 import styled from "styled-components";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, FilterOutlined } from "@ant-design/icons";
 import Logo from "./assets/temp/logo.svg";
 import menuList from "./assets/temp/menu.json";
+import categories from "./assets/temp/categories.json";
+
 import Dropdown from "./components/atmos/Dropdown";
+import Carousel from "./components/atmos/Carousel"
 
 export default function App() {
-  const [leftValue, setLeftValue] = useState("marketplace");
+  const [form] = Form.useForm();
 
+  const [leftValue, setLeftValue] = useState("marketplace");
+  const [centerValue, setCenterValue] = useState();
+  const [isFilter, setIsFilter] = useState(false);
+  
   const handleFinish = (value) => {
     setLeftValue(value);
+  };
+
+  const handleCarouselFinish = (value) => {
+    setCenterValue(value);
+  };
+
+  const handleFilterClick = () => {
+    setIsFilter(!isFilter);
   };
 
   return (
     <BrowserRouter>
       <DribbleLayout>
+
         <DribbbleHeader>
           <Row>
             <Col>
@@ -64,6 +80,7 @@ export default function App() {
             </Col>
           </Row>
         </DribbbleHeader>
+
         <DribbbleContent>
           <Row className="top" justify="space-between">
             <Col className="text-contents">
@@ -99,38 +116,57 @@ export default function App() {
             </Col>
           </Row>
           <Row className="middle">
-            <Col span={24}>
-              <Row className="filter-content">
-                <Col flex="200px" style={{ paddingTop: 20, height: 300 }}>
-                  <Dropdown
-                    options={tempList}
-                    onFinish={handleFinish}
-                    defaultValue={leftValue}
-                  />
-                </Col>
-                <Col flex="auto" style={{ paddingTop: 20 }}>
-                  {/* <Dropdown options={tempList1} onFinish={handleFinish} /> */}
-                </Col>
-                <Col flex="200px">오른쪽</Col>
-              </Row>
-            </Col>
-            {/* <Col span={24}>카드영역</Col> */}
-          </Row>
-          {/* <Row className="middle">
             <Col span={24} className="filter-content">
               <Row className="filter-row">
                 <Col flex="120px">
                   <Dropdown options={tempList} />
                 </Col>
                 <Col flex="auto">
-                  <Dropdown options={tempList1} />
+                  <CarouselWrap>
+                    <Carousel data={categories}
+                      keyOption={{
+                          label: 'categoryName',
+                          value: 'categoryCode',
+                      }}
+                      onFinish={handleCarouselFinish}
+                      defaultValue ={centerValue}
+                    />
+                  </CarouselWrap>
                 </Col>
-                <Col flex="120px">오른쪽</Col>
+                <Col
+                  flex="200px"
+                  style={{ textAlign: "right" }}
+                >
+                  <Button
+                    icon={<FilterOutlined />}
+                    size={"large"}
+                    style={{ borderRadius: "8px" }}
+                    onClick={handleFilterClick}
+                  >
+                    Filters
+                  </Button>
+                </Col>
               </Row>
             </Col>
             <Col span={24}>카드영역</Col>
-          </Row> */}
+          </Row>
+          <Form form={form} layout="vertical">
+                <Row
+                  className={`filter-keywords ${isFilter ? "active" : ""}`}
+                  gutter={[16, 16]}
+                >
+                  <Col span={6}>
+                    <Form.Item name="tags" label="Tags">
+                      {/* <Search size="large" /> */}
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>2</Col>
+                  <Col span={6}>3</Col>
+                  <Col span={6}>4</Col>
+                </Row>
+            </Form>
         </DribbbleContent>
+
         <Footer>푸터</Footer>
       </DribbleLayout>
     </BrowserRouter>
@@ -287,19 +323,21 @@ const DribbbleContent = styled(Content)`
     }
 
     .filter-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       min-height: 72px;
     }
   }
+  .filter-keywords {
+    display: none;
+  }
 
-  // .middle {
-  //   background: #fff;
-  //   .filter-content {
-  //     min-height: 72px;
-  //     .filter-row {
-  //       height: 100%;
-  //     }
-  //   }
-  // }
+  .active {
+    display: flex;
+  }
+
+
 
   .btnAction {
     padding: 10px 16px;
@@ -308,4 +346,9 @@ const DribbbleContent = styled(Content)`
     color: #fff;
     font-weight: 500;
   }
+`;
+const CarouselWrap = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  
 `;

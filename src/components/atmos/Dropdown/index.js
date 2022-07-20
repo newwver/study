@@ -66,14 +66,15 @@ export default function Dropdown({ defaultValue, options, onFinish }) {
 
 const DropdownWrap = styled.span`
   position: relative;
-  min-width: 117px;
+  display: inline-flex;
   font-size: 14px;
   border-radius: 8px;
+  padding-right: 7px;
   border: 0;
   box-shadow: 0px 0px 0px ${(props) => props.border}
-    ${(props) => props.borderColor} inset;
-  padding: 15px 5px;
-
+  ${(props) => props.borderColor} inset;
+  align-items: center;
+  
   &:hover {
     box-shadow: 0px 0px 0px 3px #ea4c891a inset;
     .dropdown-label {
@@ -83,7 +84,9 @@ const DropdownWrap = styled.span`
 
   .dropdown-label {
     color: #6e6d7a;
-    padding: 10px 25px 10px 10px;
+    padding: 10px;
+    word-break: keep-all;
+    white-space: nowrap;
   }
 
   .rotate-180 {
@@ -97,6 +100,7 @@ const DropdownWrap = styled.span`
   }
 
   .dropdown-list {
+    z-index: 1;
     background: #fff;
     position: absolute;
     top: 50px;
