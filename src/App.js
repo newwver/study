@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Row, Col, Layout, Button, Form } from "antd";
-import styled from "styled-components";
-import { SearchOutlined, FilterOutlined } from "@ant-design/icons";
-import Logo from "./assets/temp/logo.svg";
-import menuList from "./assets/temp/menu.json";
-import categories from "./assets/temp/categories.json";
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Row, Col, Layout, Button, Form } from 'antd';
+import styled from 'styled-components';
+import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import Logo from './assets/temp/logo.svg';
+import menuList from './assets/temp/menu.json';
+import categories from './assets/temp/categories.json';
 
-import Dropdown from "./components/atmos/Dropdown";
-import Carousel from "./components/atmos/Carousel"
+import Dropdown from './components/atmos/Dropdown';
+import Carousel from './components/atmos/Carousel';
 
 export default function App() {
   const [form] = Form.useForm();
 
-  const [leftValue, setLeftValue] = useState("marketplace");
+  const [leftValue, setLeftValue] = useState('marketplace');
   const [centerValue, setCenterValue] = useState();
   const [isFilter, setIsFilter] = useState(false);
-  
-  const handleFinish = (value) => {
+
+  const handleFinish = value => {
     setLeftValue(value);
   };
 
-  const handleCarouselFinish = (value) => {
+  const handleCarouselFinish = value => {
     setCenterValue(value);
   };
 
@@ -32,7 +32,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <DribbleLayout>
-
         <DribbbleHeader>
           <Row>
             <Col>
@@ -44,7 +43,7 @@ export default function App() {
                 </Col>
                 <Col>
                   <ul className="menuList">
-                    {menuList.map((menu) => {
+                    {menuList.map(menu => {
                       return (
                         <Menu>
                           <a href="/#" className="menu">
@@ -62,7 +61,7 @@ export default function App() {
                 <Action right={10}>
                   <a href="/#">
                     <SearchOutlined
-                      style={{ fontSize: 18, color: "#6e6d7a" }}
+                      style={{ fontSize: 18, color: '#6e6d7a' }}
                     />
                   </a>
                 </Action>
@@ -123,24 +122,22 @@ export default function App() {
                 </Col>
                 <Col flex="auto">
                   <CarouselWrap>
-                    <Carousel data={categories}
+                    <Carousel
+                      data={categories}
                       keyOption={{
-                          label: 'categoryName',
-                          value: 'categoryCode',
+                        label: 'categoryName',
+                        value: 'categoryCode',
                       }}
                       onFinish={handleCarouselFinish}
-                      defaultValue ={centerValue}
+                      defaultValue={centerValue}
                     />
                   </CarouselWrap>
                 </Col>
-                <Col
-                  flex="200px"
-                  style={{ textAlign: "right" }}
-                >
+                <Col flex="200px" style={{ textAlign: 'right' }}>
                   <Button
                     icon={<FilterOutlined />}
-                    size={"large"}
-                    style={{ borderRadius: "8px" }}
+                    size={'large'}
+                    style={{ borderRadius: '8px' }}
                     onClick={handleFilterClick}
                   >
                     Filters
@@ -151,20 +148,20 @@ export default function App() {
             <Col span={24}>카드영역</Col>
           </Row>
           <Form form={form} layout="vertical">
-                <Row
-                  className={`filter-keywords ${isFilter ? "active" : ""}`}
-                  gutter={[16, 16]}
-                >
-                  <Col span={6}>
-                    <Form.Item name="tags" label="Tags">
-                      {/* <Search size="large" /> */}
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>2</Col>
-                  <Col span={6}>3</Col>
-                  <Col span={6}>4</Col>
-                </Row>
-            </Form>
+            <Row
+              className={`filter-keywords ${isFilter ? 'active' : ''}`}
+              gutter={[16, 16]}
+            >
+              <Col span={6}>
+                <Form.Item name="tags" label="Tags">
+                  {/* <Search size="large" /> */}
+                </Form.Item>
+              </Col>
+              <Col span={6}>2</Col>
+              <Col span={6}>3</Col>
+              <Col span={6}>4</Col>
+            </Row>
+          </Form>
         </DribbbleContent>
 
         <Footer>푸터</Footer>
@@ -175,41 +172,41 @@ export default function App() {
 
 const tempList = [
   {
-    label: "Popular",
-    value: "popular",
-    group: "A",
+    label: 'Popular',
+    value: 'popular',
+    group: 'A',
   },
   {
-    label: "New & Noteworthy",
-    value: "NewAndNoteworthy",
-    group: "A",
+    label: 'New & Noteworthy',
+    value: 'NewAndNoteworthy',
+    group: 'A',
   },
   {
-    label: "Marketplace",
-    value: "marketplace",
-    group: "B",
+    label: 'Marketplace',
+    value: 'marketplace',
+    group: 'B',
   },
 ];
 
 const tempList1 = [
   {
-    label: "aa",
-    value: "aa",
+    label: 'aa',
+    value: 'aa',
   },
   {
-    label: "bb",
-    value: "bb",
+    label: 'bb',
+    value: 'bb',
   },
   {
-    label: "cc",
-    value: "cc",
+    label: 'cc',
+    value: 'cc',
   },
 ];
 
 const { Header, Footer, Content } = Layout;
 
 const DribbleLayout = styled(Layout)`
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+  font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
   font-size: 16px;
 `;
@@ -251,8 +248,8 @@ const Menu = styled.li`
 
 const Action = styled.li`
   display: inline;
-  margin-left: ${(props) => props.left || 0}px;
-  margin-right: ${(props) => props.right || 0}px;
+  margin-left: ${props => props.left || 0}px;
+  margin-right: ${props => props.right || 0}px;
 `;
 
 const DribbbleContent = styled(Content)`
@@ -337,8 +334,6 @@ const DribbbleContent = styled(Content)`
     display: flex;
   }
 
-
-
   .btnAction {
     padding: 10px 16px;
     border-radius: 8px;
@@ -350,5 +345,4 @@ const DribbbleContent = styled(Content)`
 const CarouselWrap = styled.div`
   max-width: 1000px;
   margin: 0 auto;
-  
 `;

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { CaretDownOutlined } from "@ant-design/icons";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { CaretDownOutlined } from '@ant-design/icons';
 
 export default function Dropdown({ defaultValue, options, onFinish }) {
   const [labelInfo, setLabelInfo] = useState(options[0]);
@@ -10,7 +10,7 @@ export default function Dropdown({ defaultValue, options, onFinish }) {
     setIsRotate(!isRotate);
   };
 
-  const handleRowClick = (item) => {
+  const handleRowClick = item => {
     setLabelInfo(item);
     handleClick();
     onFinish && onFinish(item.value);
@@ -18,17 +18,17 @@ export default function Dropdown({ defaultValue, options, onFinish }) {
 
   return (
     <DropdownWrap
-      borderColor={`${isRotate ? "#ea4c891a" : "#e7e7e9"}`}
-      border={`${isRotate ? "3px" : "1px"}`}
-      display={`${isRotate ? "" : "none"}`}
+      borderColor={`${isRotate ? '#ea4c891a' : '#e7e7e9'}`}
+      border={`${isRotate ? '3px' : '1px'}`}
+      display={`${isRotate ? '' : 'none'}`}
     >
       <a href="#0" className="dropdown-label" onClick={handleClick}>
         {defaultValue
-          ? options?.filter((option) => option.value === defaultValue)[0]?.label
+          ? options?.filter(option => option.value === defaultValue)[0]?.label
           : labelInfo.label}
       </a>
       <CaretDownOutlined
-        className={`${isRotate ? "rotate-180" : "rotate-0"}`}
+        className={`${isRotate ? 'rotate-180' : 'rotate-0'}`}
       />
       <div className="dropdown-list">
         <ul>
@@ -49,7 +49,7 @@ export default function Dropdown({ defaultValue, options, onFinish }) {
                   <a
                     href="#0"
                     className={`dropdown-item ${
-                      labelInfo.value === item.value && "active"
+                      labelInfo.value === item.value && 'active'
                     }`}
                   >
                     {item.label}
@@ -71,10 +71,10 @@ const DropdownWrap = styled.span`
   border-radius: 8px;
   padding-right: 7px;
   border: 0;
-  box-shadow: 0px 0px 0px ${(props) => props.border}
-  ${(props) => props.borderColor} inset;
+  box-shadow: 0px 0px 0px ${props => props.border} ${props => props.borderColor}
+    inset;
   align-items: center;
-  
+
   &:hover {
     box-shadow: 0px 0px 0px 3px #ea4c891a inset;
     .dropdown-label {
@@ -106,7 +106,7 @@ const DropdownWrap = styled.span`
     top: 50px;
     left: 5px;
     min-width: 180px;
-    display: ${(props) => props.display};
+    display: ${props => props.display};
     cursor: pointer;
     border-radius: 8px;
     -webkit-box-shadow: 0px 3px 5px rgb(0 0 0 / 4%);
