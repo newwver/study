@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Row, Col, Layout, Button, Form } from "antd";
+import {
+  Row,
+  Col,
+  Layout,
+  Button,
+  Form,
+  Drawer,
+  Avatar,
+  Typography,
+  Tooltip,
+} from "antd";
 import styled from "styled-components";
 import {
   SearchOutlined,
@@ -13,13 +23,18 @@ import Dropdown from "./components/atmos/Dropdown";
 import Carousel from "./components/atmos/Carousel";
 import Search from "./components/atmos/Search";
 import ColorInput from "./components/atmos/ColorInput";
+// import Card from "./components/atmos/Card";
+import Card from "./components/molecules/Card";
+import SiteItem from "./components/molecules/SiteItem";
 
 import menuList from "./assets/temp/menu.json";
 import categories from "./assets/temp/categories.json";
+import cardList from "./assets/temp/card.json";
+import siteMapList from "./assets/temp/siteMap.json";
 
 export default function App() {
   const [form] = Form.useForm();
-
+  const [visible, setVisible] = useState(false);
   const [leftValue, setLeftValue] = useState("marketplace");
   const [centerValue, setCenterValue] = useState(); // 자식값을 전달받은것.. 왜? 쿼리.. 데이터 조회
   const [isFilter, setIsFilter] = useState(false);
@@ -87,7 +102,7 @@ export default function App() {
           </Row>
         </DribbbleHeader>
         <DribbbleContent>
-          <Row className="top" justify="space-between">
+          <Row className="top" justify="space-between" gutter={[16, 16]}>
             <Col className="text-contents">
               <h1>Explore the world’s leading design portfolios</h1>
               <h2>
@@ -196,14 +211,173 @@ export default function App() {
                 </Row>
               </Form>
             </Col>
-            <Col span={24}>카드영역</Col>
+            <Col span={24} className="wrap-inner">
+              <Row gutter={[32, 32]}>
+                {cardList?.map((item) => {
+                  return (
+                    <Col span={6}>
+                      <Card
+                        key={item?.key}
+                        alt={item?.name}
+                        thumbnail={item?.thumbnail}
+                        badgeText={item?.badgeText}
+                        title={item?.title}
+                        onLink={(key) => {
+                          setVisible(true);
+                          // console.log(key);
+                        }}
+                        onSave={(key) => {
+                          alert("save");
+                        }}
+                        onLike={(key) => {
+                          alert("like");
+                        }}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Col>
+            <Col span={24} className="site-map">
+              <Row>
+                <Col flex={`256px`}>왼쪽</Col>
+                <Col flex={`auto`}>
+                  <Row>
+                    {siteMapList.map((site) => {
+                      return (
+                        <Col flex="20%">
+                          {site.siteMapArea.map((item) => {
+                            return (
+                              <SiteItem
+                                data={item}
+                                title="areaName"
+                                childrenName="name"
+                                childrenLink="link"
+                              />
+                            );
+                          })}
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Col>
+                <Col flex={`256px`}>오른쪽</Col>
+              </Row>
+            </Col>
           </Row>
         </DribbbleContent>
         <Footer>푸터</Footer>
+        <Drawer
+          placement={"bottom"}
+          closable={true}
+          onClose={() => {
+            setVisible(false);
+          }}
+          visible={visible}
+          key={"bottom"}
+          height="calc(100% - 50px)"
+        >
+          <DetailWrap>
+            <div className="content-container">
+              <div className="content-head-wrap">
+                <div className="content-head">
+                  <Row>
+                    <Col flex={`auto`}>
+                      <Row>
+                        <Col flex={"42px"}>
+                          <Avatar
+                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                            size={42}
+                          />
+                        </Col>
+                        <Col flex={"auto"}>
+                          <div className="content-head-title-wrap">
+                            <Title level={5}>
+                              Brotrip - Explore Bromo Landing Page
+                            </Title>
+                            <div className="content-head-title">
+                              <span>Wildan 👋 for 10am Studio</span>
+                              <span className="content-head-dot">•</span>
+                              <span>
+                                <Tooltip
+                                  placement="top"
+                                  title={`Follow Wildan 👋`}
+                                >
+                                  <a>Follow</a>
+                                </Tooltip>
+                              </span>
+                              <span className="content-head-dot">•</span>
+                              <span className="content-head-last">
+                                <Tooltip
+                                  placement="top"
+                                  title={`Send a message about a work opportunity`}
+                                >
+                                  <a>Hire Us</a>
+                                </Tooltip>
+                              </span>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col flex={`200px`}>2</Col>
+                  </Row>
+                </div>
+              </div>
+              <div className="content-body">body</div>
+            </div>
+          </DetailWrap>
+        </Drawer>
       </DribbleLayout>
     </BrowserRouter>
   );
 }
+
+const { Title } = Typography;
+
+const DetailWrap = styled.div`
+  padding: 64px 120px;
+  transition: padding 0.25s linear;
+  transition-delay: 0.15s;
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1172px;
+    margin: auto;
+
+    .content-head-wrap {
+      width: 70%;
+      .content-head {
+        margin: auto;
+        height: 52px;
+
+        .content-head-title-wrap {
+          padding-left: 10px;
+
+          .content-head-title {
+            span {
+              display: inline-block;
+              a {
+                color: #3d3d4e;
+              }
+            }
+            .content-head-dot {
+              margin: 0 10px;
+            }
+            .content-head-last {
+              a {
+                color: #ea4c89;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 const tempList = [
   {
@@ -408,6 +582,10 @@ const DribbbleContent = styled(Content)`
       visibility: visible;
       height: 86px;
       opacity: 1;
+    }
+
+    .wrap-inner {
+      padding: 32px 0 40px 0;
     }
   }
 
